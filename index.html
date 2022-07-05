@@ -75,19 +75,19 @@
             }
 
             function getDefinition() {
-                async function getData() {
-                    try {
-                        const response = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/hello");
-                        const json = await response.json();
-                        console.log(json);
-                    } catch(error) {
-                        console.log(error);
-                        throw error;
-                    }
-                }
+                // async function getData() {
+                //     try {
+                //         const response = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/hello");
+                //         const json = await response.json();
+                //         console.log(json);
+                //     } catch(error) {
+                //         console.log(error);
+                //         throw error;
+                //     }
+                // }
 
-                getData()
-                return "hello"
+                // getData()
+                return "hello, what's your name?"
 
             }
 
