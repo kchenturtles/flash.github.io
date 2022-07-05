@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="styles.css" rel="stylesheet">
+        <script>
+            let numCards = 0;
+            let cardIndex = 0;
+            let cardSide = true;
+            let cards = [];
+            class Card {
+                constructor(term, definition) {
+                    this.term = term;
+                    this.definition = definition;
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function(){
+               let a = document.querySelector('#flip');
+               a.addEventListener('click', function(){
+                  let ar = document.querySelector('#term');
+                  let tv = document.querySelector('#id');
+                  if(cardSide) {
+                      ar.innerHTML = cards[cardIndex].definition;
+                      tv.innerHTML = 'definition';
+                       cardSide = false;
+                  } else {
+                      ar.innerHTML = cards[cardIndex].term;
+                      tv.innerHTML = 'term';
+                       cardSide = true;
+                  }
+              });
+               let b = document.querySelector('#change');
+               b.addEventListener('click', function() {
+                  if(cardIndex >= numCards) {
+                      cardIndex = 0;
+                  } else {
+                      cardIndex ++;
+                  }
+                  let dr = document.querySelector('#term');
+                  dr.innerHTML = cards[cardIndex].term;
+                  let dv = document.querySelector('#id');
+                  dv.innerHTML = 'term';
+                  let dt = document.querySelector('#num');
+                  let news = (cardIndex + 1).toString().concat('/', numCards.toString());
+                  dt.innerHTML = news;
+
+               });
+            });
+
+            function addWord() {
+                let text = document.querySelector('#name').value;
+                if(text.includes(',')) {
+                    let t = text.split(',');
+                    let c = new Card(t[0], t[1]);
+                    cards[numCards] = c;
+                } else {
+                    let c = new Card(document.querySelector('#name').value, getDefinition());
+                    cards[numCards] = c;
+                }
+
+                let tr = document.querySelector('#term');
+                if(cardSide) {
+                     tr.innerHTML = cards[cardIndex].term;
+
+                } else {
+                     tr.innerHTML = cards[cardIndex].definition;
+                }
+
+
+                numCards++;
+                let dd = document.querySelector('#num');
+                let n = (cardIndex + 1).toString().concat('/', numCards.toString());
+                dd.innerHTML = n;
+            }
+
+            function getDefinition() {
+                const Http = new XMLHttpRequest();
+                let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+                const query = 'hello';
+                // Http.open('GET', url);
+                // Http.send(query);
+                fetch('https://api.dictionaryapi.dev/api/v2/entries/en/hello')
+                .then(response => response.text());
+                //const text = await response.text();
+                //alert(Promise.resolve(text));
+                //alert(text);
+               // .then(res => res.json())
+               // .then(out => alert('JSON', out.text()));
+               // .catch(err => throw err);
+
+            }
+
+        </script>
+        <title>
+            Flash
+        </title>
+    </head>
+    <body>
+        <h1>Flashcard Maker</h1>
+        <div class="card center">
+            <div id="num" class = "topper">1/1</div>
+            <div id = "id" class = "topper" style = "text-align:center">term</div>
+            <p id="term", class = "term"></p>
+        </div>
+        <button id = "flip" class="center">Flip Card</button>
+        <button id="change">Next Card</button>
+        <p>
+           <input id="file" type="text"></input>
+           <button> Upload File Here</button>
+        </p>
+        <p>
+            <form onsubmit="addWord(); return false;">
+            <input id="name" placeholder = "Enter word or pairing" type="text">
+            <input type="submit">
+        </form>
+        </p>
+    </body>
+</html>
